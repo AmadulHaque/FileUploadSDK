@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileUploadSDK Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fa;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .upload-container {
+            margin-bottom: 2rem;
+        }
+        .section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        #log {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .log-error { color: #d9534f; }
+        .log-success { color: #5cb85c; }
+        .log-info { color: #5bc0de; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FileUploadSDK Demo</h1>
+        
+        <div class="upload-container" id="uploader"></div>
+        
+        <div class="section">
+            <h2>Controls</h2>
+            <button id="getFilesBtn">Get Files</button>
+            <button id="clearFilesBtn">Clear All Files</button>
+            <button id="countFilesBtn">Count Files</button>
+        </div>
+        
+        <div class="section">
+            <h2>Log</h2>
+            <div id="log"></div>
+        </div>
+    </div>
+
+    <!-- Include the FileUploadSDK -->
+    <script src="file-upload-sdk.js"></script>
+    
+    <script>
+        // Initialize the log
+        const log = document.getElementById('log');
+        function addLogEntry(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Initialize the FileUploadSDK
+        const uploader = new FileUploadSDK({
+            containerId: 'uploader',
+            maxFiles: 5,
+            maxSizeMB: 2,
+            allowedTypes: [
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'application/pdf'
+            ],
+            labels: {
+                dropText: 'Drop files here or click to browse',
+                helpText: 'Upload up to {maxFiles} files (max {maxSize}MB each)'
+            },
+            onFileAdded: (file) => {
+                addLogEntry(`File added: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`, 'success');
+            },
+            onFileRemoved: (fileName) => {
+                addLogEntry(`File removed: ${fileName}`, 'info');
+            },
+            onValidationFail: (error) => {
+                addLogEntry(`Validation error: ${error}`, 'error');
+            }
+        });
+        
+        // Setup button actions
+        document.getElementById('getFilesBtn').addEventListener('click', () => {
+            const files = uploader.getFiles();
+            addLogEntry(`Current files: ${files.map(f => f.name).join(', ') || 'none'}`, 'info');
+        });
+        
+        document.getElementById('clearFilesBtn').addEventListener('click', () => {
+            uploader.clearFiles();
+            addLogEntry('All files cleared', 'info');
+        });
+        
+        document.getElementById('countFilesBtn').addEventListener('click', () => {
+            const count = uploader.getFiles().length;
+            addLogEntry(`File count: ${count}`, 'info');
+        });
+    </script>
+</body>
+</html>
