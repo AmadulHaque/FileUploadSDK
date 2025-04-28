@@ -2,7 +2,7 @@
 
 A lightweight, modern file upload library for web applications with drag-and-drop support, file validation, and preview generation.
 
-![FileUploadSDK Demo](https://via.placeholder.com/800x400?text=FileUploadSDK+Demo)
+![FileUploadSDK Demo](https://placehold.co/800x400?text=FileUploadSDK+Demo&font=roboto)
 
 ## Features
 
