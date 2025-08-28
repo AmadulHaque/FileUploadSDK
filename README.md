@@ -16,12 +16,6 @@ A lightweight, modern file upload library for web applications with drag-and-dro
 
 ## Installation
 
-### Via NPM (Recommended)
-
-```bash
-npm install file-upload-sdk
-```
-
 ### Direct Download
 
 Download the [file-upload-sdk.js](dist/file-upload-sdk.js) file and include it in your project.
