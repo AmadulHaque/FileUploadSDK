@@ -25,10 +25,7 @@ Download the [file-upload-sdk.js](dist/file-upload-sdk.js) file and include it i
 1. Include the script in your HTML:
 
 ```html
-<!-- If installed via npm -->
-<script src="node_modules/file-upload-sdk/dist/file-upload-sdk.js"></script>
-
-<!-- OR if downloaded directly -->
+<!-- downloaded directly -->
 <script src="path/to/file-upload-sdk.js"></script>
 ```
 
